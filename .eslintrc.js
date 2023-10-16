@@ -29,5 +29,5 @@ module.exports = {
   ],
   rules: {
   },
-  ignorePatterns: [".eslintrc.js", "tsconfig.json"],
+  ignorePatterns: [".eslintrc.js", ".babelrc", "tsconfig.json", "jest.config.js"]
 }

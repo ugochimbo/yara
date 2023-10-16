@@ -1,25 +1,50 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react'
+import { fetchEnvironmentalData, isApiError } from './data'
+import Map from './components/Map'
+import { type Measurement } from './types/measurement'
+import './styles/map.css'
 
-function App (): React.JSX.Element {
+const App: React.FC = () => {
+  const [measurementData, setMeasurementData] = useState<Measurement[]>([])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // Treat the search params as constant for now,
+        // it should normally be dynamic and stored in state
+        const data = await fetchEnvironmentalData({
+          date_from: '2000-01-01T00:00:00Z',
+          date_to: new Date().toISOString(),
+          limit: 100,
+          page: 1,
+          offset: 0,
+          sort: 'desc',
+          radius: 1000,
+          country: 'de',
+          order_by: 'datetime'
+        })
+
+        if (isApiError(data)) {
+          console.error('Error fetching data:', data)
+          return
+        }
+
+        setMeasurementData(data as Measurement[])
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    })().catch((error) => {
+      console.error('Error in async function:', error)
+    })
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className={'app-container'}>
+        <h1>Environmental Data in Germany</h1>
+        <div className={'map-container'}>
+          <Map measurements={measurementData} />
+        </div>
+      </div>
   )
 }
 
