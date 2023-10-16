@@ -16,8 +16,13 @@ docker run -p 3000:3000 yara-app
 
 ## Set Up (Without Docker)
 
-```bash yarn install ```
-```bash yarn start ```
+```bash
+yarn install 
+```
+```bash
+yarn start 
+```
+
 
 ## Available Scripts
 
@@ -60,10 +65,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 This project uses eslint to enforce code style. To run eslint, run the following command:
 
-```bash yarn lint ```
+```bash
+yarn lint 
+```
 
 ## Prettier
 
 This project uses prettier to format code. To run prettier, run the following command:
 
-```bash yarn format ```
+```bash
+yarn format 
+```
